@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import generateRRR from '../remitaServices';
+import { generateRRR, savePaymentDetails } from '../remitaServices';
 
 function DetailsPage() {
   const { state } = useLocation();
@@ -19,17 +19,22 @@ function DetailsPage() {
     const paymentDetails = {
       name: state.name,
       email: state.email,
-      meter:state.meter,
-      description:`Payment for Skyrun ${state.meter}, with JED`,
       phone: state.phone,
       amount: state.productPrices[state.meter],
+      description: "Payment for Jos Electric Distribution Company"
     };
 
     try {
       const rrrData = await generateRRR(paymentDetails);
       console.log("API Response:", rrrData); // Log the entire response
       if (rrrData && rrrData.RRR) {
-        navigate("/payment-success", { state: { rrr: rrrData.RRR, amount: formatCurrency(state.productPrices[state.meter]), description:paymentDetails.description } });
+        paymentDetails.rrr = rrrData.RRR;
+        await savePaymentDetails(paymentDetails);
+        navigate("/gen-invoice", { state: { 
+          rrr: rrrData.RRR, 
+          amount: formatCurrency(state.productPrices[state.meter]), 
+          description: paymentDetails.description 
+        } });
       } else {
         console.error("RRR property is missing or incorrect.");
       }
@@ -67,13 +72,7 @@ function DetailsPage() {
       </p>
       <div className="button-group">
         <button className="button" onClick={handlePaymentInitiation}>
-          Initiate Payment
-        </button>
-        <button
-          className="button button-secondary"
-          onClick={() => navigate("/update-payment")}
-        >
-          Update Payment
+          Generate Remita Reference
         </button>
       </div>
     </div>

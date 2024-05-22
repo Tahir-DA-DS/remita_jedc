@@ -40,8 +40,8 @@ function RegistrationForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const productPrices = {
-      "Single-phase meter": "85159.00",
-      "Three-phase meter": "155350.00"
+      "Single-phase meter": "88123.30",
+      "Three-phase meter": "154623.81"
     };
     if (!formData.meter) {
       setErrors(prev => ({ ...prev, meter: "Please select a meter type" }));
@@ -92,7 +92,7 @@ function RegistrationForm() {
         <label className="label">Enter Your Landlord's Name
           <input className="inputField" type="text" name="landlord" value={formData.landlord} onChange={handleChange} required />
         </label>
-        <button className="submitButton" type="submit">Register</button>
+        <button className="submitButton" type="submit">Submit</button>
       </form>
     </div>
   );

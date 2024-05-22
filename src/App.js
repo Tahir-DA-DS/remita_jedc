@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <RegistrationForm />}/>
         <Route path="/details" element={ <Detailspage />}/>
-        <Route path="/payment-success" element={<CreateRRR />} />
+        <Route path="/gen-invoice" element={<CreateRRR />} />
       </Routes>
      
     </div>
